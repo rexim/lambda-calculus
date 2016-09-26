@@ -98,6 +98,7 @@ case class LambdaFunc(parameter: LambdaVar, body: LambdaTerm) extends LambdaTerm
 object LambdaCollapsedApp {
   def apply(leftTerm: LambdaTerm, rightTerm: LambdaTerm): LambdaCollapsedApp = {
     rightTerm match {
+      // TODO: alpha compare left terms of the collapsed applications
       case LambdaCollapsedApp(left, right, n) if left == leftTerm => LambdaCollapsedApp(left, right, n + 1)
       case _ => LambdaCollapsedApp(leftTerm, rightTerm, 1)
     }
