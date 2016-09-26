@@ -114,6 +114,8 @@ case class LambdaCollapsedApp(leftTerm: LambdaTerm, rightTerm: LambdaTerm, n: In
       leftTerm.substitute(v -> r),
       rightTerm.substitute(v -> r))
   }
+
+  // TODO: pretty printing for collapsed applications
 }
 
 case class LambdaApp(leftTerm: LambdaTerm, rightTerm: LambdaTerm) extends LambdaTerm {
