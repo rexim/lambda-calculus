@@ -109,7 +109,7 @@ case class LambdaCollapsedApp(leftTerm: LambdaTerm, rightTerm: LambdaTerm, n: In
 
   override def substitute(substitution: (LambdaVar, LambdaTerm)): LambdaTerm = {
     val (v, r) = substitution
-    LambdaApp(
+    LambdaCollapsedApp(
       leftTerm.substitute(v -> r),
       rightTerm.substitute(v -> r))
   }
