@@ -37,6 +37,8 @@ object NormalOrder {
       }
     }
 
+    // TODO: NormalOrder strategy should support collapsed applications
+
     def norStepReduce(): LambdaTerm = term match {
       case LambdaApp(LambdaFunc(x, t), r) => t.substitute(x -> r)
       case LambdaApp(l, r) if !l.norIsFinished() => LambdaApp(l.norStepReduce(), r)
