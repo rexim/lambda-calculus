@@ -78,6 +78,8 @@ class LambdaParser extends JavaTokenParsers with ImplicitConversions {
       case (init :+ last) ~ body => init.foldRight(LambdaFunc(last, body))(LambdaFunc)
     }
 
+  // TODO: parser support for collapsed applications
+
   def application: Parser[LambdaApp] =
     termWithoutApp ~ termWithoutApp ~ rep(termWithoutApp) ^^ {
       case fst ~ mid ~ rest => rest.foldLeft(LambdaApp(fst, mid))(LambdaApp)
