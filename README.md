@@ -137,4 +137,4 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 [scala-sbt]: http://www.scala-sbt.org/
 [execution-semantic]: https://github.com/rexim/Morganey/wiki/Execution-Mode-Semantic
 
-<!-- keddelzz ate all of my waffles again -->
+<!-- keddelzz ate none of my waffles again -->
