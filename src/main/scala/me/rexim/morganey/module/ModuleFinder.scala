@@ -10,11 +10,18 @@ object ModuleFinder {
 }
 
 class ModuleFinder(classLoader: ClassLoader = ModuleFinder.getClass.getClassLoader) {
-
-  private def modulePathToRelativeURL(modulePath: String): String =
-    modulePath.replace('.', '/')
-
+  // TODO: Remove ModuleFinder.findModuleInClasspath
+  //
+  // All of the code that depends on this function should be
+  // refactored accordingly. Getting rid of this function essentially
+  // eliminates any violations of Module Entity encapsulation.
+  //
+  // The only code that uses this function is MorganeyCompiler.
+  @deprecated("Use {{Module}} entity instead")
   def findModuleInClasspath(modulePath: String): Option[URL] = {
+    def modulePathToRelativeURL(modulePath: String): String =
+      modulePath.replace('.', '/')
+
     val resourcePath = s"${modulePathToRelativeURL(modulePath)}.${ModuleFinder.fileExtension}"
     val resourceUrl = classLoader.getResource(resourcePath)
     Option(resourceUrl)
