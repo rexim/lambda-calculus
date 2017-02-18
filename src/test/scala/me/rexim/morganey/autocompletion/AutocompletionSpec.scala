@@ -90,7 +90,7 @@ class AutocompletionSpec extends FlatSpec with Matchers with TestTerms with Mock
     def addLoad(s: String): String = s"load $s"
 
     autocomplete("load .", 6, List())        should be (Set() map addLoad)
-    autocomplete("load ", 5, List())         should be (modules.map(_.name).map(addLoad).toSet)
+    autocomplete("load ", 5, List())         should be (modules.map(_.canonicalPath).map(addLoad).toSet)
     autocomplete("load std.m", 10, List())   should be (Set("load std.math.arithmetic"))
   }
 

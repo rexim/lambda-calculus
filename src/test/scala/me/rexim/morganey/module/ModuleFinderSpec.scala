@@ -48,6 +48,7 @@ class ModuleFinderSpec extends FlatSpec with MockitoSugar with Matchers {
 
     val moduleFinder = new ModuleFinder(classLoader)
 
-    moduleFinder.findAllModulesInIndex().map(_.name).sorted should be (expectedModules.map(_.name).sorted)
+    moduleFinder.findAllModulesInIndex().map(_.canonicalPath).sorted should
+      be (expectedModules.map(_.canonicalPath).sorted)
   }
 }

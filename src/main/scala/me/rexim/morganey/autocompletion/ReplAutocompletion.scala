@@ -53,7 +53,7 @@ object ReplAutocompletion {
 
   private[autocompletion] def autocompleteLoadStatement(parts: List[String], endsWithDot: Boolean, context: ReplContext): List[String] = {
     val moduleName = s"${parts.mkString(".")}${if (endsWithDot) "." else ""}"
-    val knownModuleNames = context.moduleFinder.findAllModulesInIndex.map(_.name)
+    val knownModuleNames = context.moduleFinder.findAllModulesInIndex.map(_.canonicalPath)
     knownModuleNames.filter(_ startsWith moduleName)
   }
 
