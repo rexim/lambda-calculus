@@ -6,7 +6,7 @@ import me.rexim.morganey.ast.LambdaTermHelpers._
 import me.rexim.morganey.ast.MorganeyBinding
 import me.rexim.morganey.helpers.TestTerms
 import me.rexim.morganey.interpreter.ReplContext
-import me.rexim.morganey.module.{ModuleFinder, Module}
+import me.rexim.morganey.module._
 import me.rexim.morganey.Commands
 import org.scalatest._
 import org.scalatest.mockito.MockitoSugar
@@ -22,7 +22,7 @@ class AutocompletionSpec extends FlatSpec with Matchers with TestTerms with Mock
     "std/math/arithmetic.mgn",
     "std/list.mgn",
     "std/prelude.mgn"
-  ).map(new Module(_))
+  ).map(resourcePath => new Module(ResourcePath(resourcePath)))
 
   private val mockModuleFinder = {
     val moduleFinder = mock[ModuleFinder]

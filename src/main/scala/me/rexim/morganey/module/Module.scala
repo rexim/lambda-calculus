@@ -1,6 +1,6 @@
 package me.rexim.morganey.module
 
-class Module(resourcePath: String) {
+class Module(modulePath: ModulePath) {
   def name: String =
-    resourcePath.replace('/', '.').stripSuffix(s".${ModuleFinder.fileExtension}")
+    modulePath.asCanonicalPath.path
 }

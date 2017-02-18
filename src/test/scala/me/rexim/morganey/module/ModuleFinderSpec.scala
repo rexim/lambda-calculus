@@ -39,7 +39,7 @@ class ModuleFinderSpec extends FlatSpec with MockitoSugar with Matchers {
     import scala.collection.JavaConverters._
 
     val moduleContainers = List(List("hello.mgn", "world.mgn"), List("a/foo.mgn", "b/bar.mgn"))
-    val expectedModules = moduleContainers.flatMap(identity).map(new Module(_))
+    val expectedModules = moduleContainers.flatMap(identity).map(path => new Module(ResourcePath(path)))
     val mockedMorganeyIndexUrls = moduleContainers.map(mockMorganeyIndexUrl)
 
     val classLoader = mock[ClassLoader]

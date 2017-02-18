@@ -28,6 +28,6 @@ class ModuleFinder(classLoader: ClassLoader = ModuleFinder.getClass.getClassLoad
       .toSet
       .flatMap((url: URL) => Source.fromInputStream(url.openStream()).getLines().toSet)
       .toList
-      .map(new Module(_))
+      .map(resourcePath => new Module(ResourcePath(resourcePath)))
   }
 }

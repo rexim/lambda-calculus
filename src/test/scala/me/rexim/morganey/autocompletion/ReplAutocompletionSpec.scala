@@ -1,7 +1,7 @@
 package me.rexim.morganey.autocompletion
 
 import me.rexim.morganey.interpreter.ReplContext
-import me.rexim.morganey.module.{ModuleFinder, Module}
+import me.rexim.morganey.module._
 
 import org.scalatest._
 import org.scalatest.mockito.MockitoSugar
@@ -64,7 +64,7 @@ class ReplAutocompletionSpec extends FlatSpec with Matchers with MockitoSugar {
       "foo.mgn",
       "bar.mgn",
       "a/b.mgn"
-    ).map(new Module(_)))
+    ).map(path => new Module(ResourcePath(path))))
 
     val context = ReplContext(
       bindings = Nil,
