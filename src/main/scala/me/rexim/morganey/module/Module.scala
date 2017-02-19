@@ -7,9 +7,7 @@ class Module(modulePath: ModulePath, classLoader: ClassLoader = Module.getClass.
   def canonicalPath: String =
     modulePath.asCanonicalPath.path
 
-  // TODO: Implement Module.bindings
+  // TODO: Implement Module.{bindings, dependencies}
   def bindings: Try[Set[MorganeyBinding]] = ???
-
-  // TODO: Implement Module.dependencies
   def dependencies: Try[Set[Module]] = ???
 }
