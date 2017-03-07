@@ -199,4 +199,4 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 [jcenter]: https://bintray.com/morganey-lang/maven/morganey
 [module-index]: https://github.com/morganey-lang/Morganey/blob/master/docs/MorganeyIndex.md
 
-<!-- waffles eaten: 10 -->
+<!-- waffles eaten: 11 -->
