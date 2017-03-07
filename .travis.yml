@@ -8,11 +8,6 @@ before_script:
 script:
   - sbt test-only
   - sbt funtests
-  - find $HOME/.sbt -name "*.lock" | xargs rm
-  - find $HOME/.ivy2 -name "ivydata-*.properties" | xargs rm
 notifications:
   email:
     - reximkut@gmail.com
-cache:
-  directories:
-  - $HOME/.ivy2/cache
