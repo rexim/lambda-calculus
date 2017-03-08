@@ -7,7 +7,6 @@ before_script:
   - sbt clean compile
 script:
   - sbt test-only
-  - sbt funtests
 notifications:
   email:
     - reximkut@gmail.com

@@ -6,4 +6,3 @@ build_script:
   - sbt clean compile
 test_script:
   - sbt test-only
-  - sbt funtests
