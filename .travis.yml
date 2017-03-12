@@ -1,6 +1,6 @@
 language: scala
 jdk: oraclejdk7
-sudo: false
+sudo: true
 scala:
   - 2.11.8
 before_script:
