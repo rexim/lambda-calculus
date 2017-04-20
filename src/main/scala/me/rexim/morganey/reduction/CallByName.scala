@@ -26,4 +26,6 @@ object CallByName {
       case _ => true
     }
   }
+
+  // TODO: Call-by-name strategy should support collapsed applications
 }

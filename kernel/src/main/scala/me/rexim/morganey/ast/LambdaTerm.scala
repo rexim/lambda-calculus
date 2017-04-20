@@ -93,6 +93,29 @@ case class LambdaFunc(parameter: LambdaVar, body: LambdaTerm) extends LambdaTerm
   }
 }
 
+object LambdaCollapsedApp {
+  def apply(leftTerm: LambdaTerm, rightTerm: LambdaTerm): LambdaCollapsedApp = {
+    rightTerm match {
+      // TODO: alpha compare left terms of the collapsed applications
+      case LambdaCollapsedApp(left, right, n) if left == leftTerm => LambdaCollapsedApp(left, right, n + 1)
+      case _ => LambdaCollapsedApp(leftTerm, rightTerm, 1)
+    }
+  }
+}
+
+case class LambdaCollapsedApp(leftTerm: LambdaTerm, rightTerm: LambdaTerm, n: Int) extends LambdaTerm {
+  override val freeVars: Set[String] = leftTerm.freeVars ++ rightTerm.freeVars
+
+  override def substitute(substitution: (LambdaVar, LambdaTerm)): LambdaTerm = {
+    val (v, r) = substitution
+    LambdaCollapsedApp(
+      leftTerm.substitute(v -> r),
+      rightTerm.substitute(v -> r))
+  }
+
+  // TODO: pretty printing for collapsed applications
+}
+
 case class LambdaApp(leftTerm: LambdaTerm, rightTerm: LambdaTerm) extends LambdaTerm {
   override def substitute(substitution: (LambdaVar, LambdaTerm)): LambdaTerm = {
     val (v, r) = substitution
