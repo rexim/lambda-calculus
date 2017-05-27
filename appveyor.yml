@@ -6,8 +6,3 @@ build_script:
   - sbt clean compile
 test_script:
   - sbt test-only
-  - sbt funtests
-cache:
-  - C:\ProgramData\chocolatey\lib -> appveyor.yml
-  - C:\Program Files (x86)\sbt -> appveyor.yml
-  - C:\Users\appveyor\.ivy2
