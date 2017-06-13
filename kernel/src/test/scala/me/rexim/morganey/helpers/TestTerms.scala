@@ -34,4 +34,7 @@ trait TestTerms {
   val zero = lnested(List("f", "x"), lvar("x"))
   val one = lnested(List("f", "x"), lapp(lvar("f"), lvar("x")))
   val two = lnested(List("f", "x"), lapp(lvar("f"), lapp(lvar("f"), lvar("x"))))
+
+  val `[0 .. 2]` = pair(zero, pair(one, pair(two, zero)))
+
 }

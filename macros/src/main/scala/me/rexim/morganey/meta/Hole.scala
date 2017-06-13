@@ -1,7 +1,5 @@
 package me.rexim.morganey.meta
 
-import java.util.regex.Pattern
-
 private[meta] object Hole {
 
   private val holePattern   = "$hole"

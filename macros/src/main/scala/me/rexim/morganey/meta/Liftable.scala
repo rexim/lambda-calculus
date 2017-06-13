@@ -15,8 +15,7 @@ trait DefaultLiftableInstances {
   implicit val liftInt  = Liftable[Int](encodeNumber)
   implicit val liftChar = Liftable[Char](c => encodeNumber(c.toInt))
 
-  implicit val liftString = Liftable[String] { s =>
-    val lift = implicitly[Liftable[Seq[Char]]]
+  implicit def liftString(implicit lift: Liftable[Seq[Char]]) = Liftable[String] { s =>
     lift(s.toSeq)
   }
 
@@ -25,7 +24,7 @@ trait DefaultLiftableInstances {
       case (a, b) => encodePair( (liftA(a), liftB(b)) )
     }
 
-  implicit def liftColl[X, CC[X] <: Traversable[X], A](implicit lift: Liftable[A]): Liftable[CC[A]] =
+  implicit def liftColl[CC[X] <: TraversableOnce[X], A](implicit lift: Liftable[A]): Liftable[CC[A]] =
     Liftable[CC[A]] { xs =>
       val ys = xs map lift
       encodeList(ys.toList)

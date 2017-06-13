@@ -1,16 +1,25 @@
 package me.rexim.morganey
 
+import scala.collection.generic.CanBuildFrom
 import scala.util.Try
+import scala.language.higherKinds
 
 package object monad {
   /**
     * Returns 'None', if one of the Options in 'lst' is 'None',
     * otherwise the elements are collected in a 'Some'.
     */
-  def sequence[T](lst: List[Option[T]]): Option[List[T]] =
-    lst.foldRight(Option(List.empty[T])) {
-      case (ele, acc) => acc.flatMap(lst => ele.map(_ :: lst))
-    }
+  def sequence[CC[+T] <: TraversableOnce[T], T](lst: CC[Option[T]])
+                                              (implicit cbf: CanBuildFrom[Nothing, T, CC[T]]): Option[CC[T]] = {
+    var out = Option(cbf.apply())
+    val i   = lst.toIterator
+    while (out.isDefined && i.hasNext)
+      i.next() match {
+        case Some(elem) => out.map(_ += elem)
+        case None       => out = None
+      }
+    out.map(_.result())
+  }
 
   def sequence[T](lst: List[Try[T]]): Try[List[T]] =
     lst.foldRight(Try(List.empty[T])) {

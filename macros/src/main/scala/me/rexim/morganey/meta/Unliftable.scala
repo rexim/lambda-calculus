@@ -17,8 +17,7 @@ trait DefaultUnliftableInstances {
   implicit val unliftInt = Unliftable[Int](decodeNumber)
   implicit val unliftChar = Unliftable[Char](decodeChar)
 
-  implicit val unliftString = Unliftable[String] { s =>
-    val unlift = implicitly[Unliftable[Seq[Char]]]
+  implicit def unliftString(implicit unlift: Unliftable[Seq[Char]]) = Unliftable[String] { s =>
     unlift.unapply(s).map(_.mkString)
   }
 
@@ -31,8 +30,8 @@ trait DefaultUnliftableInstances {
       } yield (a, b)
     }
 
-  implicit def unliftColl[X, CC[X] <: Traversable[X], A]
-                         (implicit unlift: Unliftable[A], cbf: CanBuildFrom[List[A], A, CC[A]]): Unliftable[CC[A]] =
+  implicit def unliftColl[CC[X] <: TraversableOnce[X], A]
+                         (implicit unlift: Unliftable[A], cbf: CanBuildFrom[Nothing, A, CC[A]]): Unliftable[CC[A]] =
     Unliftable[CC[A]] { t =>
       decodeList(t).flatMap { xs =>
         val decodeResults = xs.map(unlift.unapply)
