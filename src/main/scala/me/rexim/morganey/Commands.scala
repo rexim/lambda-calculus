@@ -32,8 +32,10 @@ object Commands {
   val commands: Map[String, Command] =
     Seq[Command](
       StringCommand("exit",   exitREPL),
+      StringCommand("quit",   exitREPL),
       StringCommand("raw",    rawPrintTerm),
-      TermCommand  ("unbind", unbindBindings)
+      TermCommand  ("unbind", unbindBindings),
+      StringCommand("bindings", printBindings)
     )
     .map(x => x.name -> x)
     .toMap
@@ -53,6 +55,9 @@ object Commands {
 
   private def exitREPL(args: String)(context: ReplContext): ReplResult[String] =
     sys.exit(0)
+
+  private def printBindings(args: String)(context: ReplContext): ReplResult[String] =
+    ReplResult(context, Some(context.bindings.map(_.variable.name).mkString(", ")))
 
   private def rawPrintTerm(args: String)(context: ReplContext): ReplResult[String] = {
     val parseResult = LambdaParser.parseAll(LambdaParser.term, args).toTry
