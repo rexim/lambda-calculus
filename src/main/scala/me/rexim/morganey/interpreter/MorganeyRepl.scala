@@ -20,19 +20,35 @@ class MorganeyRepl(preludeModule: Option[Module]) {
       case input         => parseAndEval(context, line)
     }
 
+  // TODO: Separate REPL side effects from ReplResult
+  //
+  // Right now ReplResult.result has two meanings:
+  // 1. Result of the term reduction
+  // 2. REPL message for the user
+  //
+  // We need to separate those meanings. The proposed idea is to
+  // attach some kind of side effect to ReplContext and use
+  // ReplResult.result ONLY for term reduction results.
   private def parseAndEval(context: ReplContext, line: String): Computation[ReplResult[String]] = {
     val parseResult = Computation(LambdaParser.parseAll(LambdaParser.replCommand, line).toTry)
 
-    // TODO(#197): discriminate bindings from the rest of the nodes here and inform the user if the binding was redefined
-    val evaluation = parseResult flatMap {
-      case Success(node) => evalNode(context, node)
+    parseResult flatMap {
+      case Success(binding: MorganeyBinding) => {
+        Computation(ReplResult(
+          context.addBinding(binding),
+          if (!context.contains(binding)) {
+            None
+          } else {
+            Some(s"${binding.variable} was redefined")
+          }
+        ))
+      }
+      case Success(node) => evalNode(context, node) map (_ map smartShowTerm)
       case Failure(e)    => Computation.failed(e)
     }
-
-    evaluation map (_ map smartShowTerm)
   }
 
-  def evalNode(context: ReplContext, node: MorganeyNode): Computation[ReplResult[LambdaTerm]] = {
+  private def evalNode(context: ReplContext, node: MorganeyNode): Computation[ReplResult[LambdaTerm]] = {
     node match {
       case MorganeyLoading(Some(modulePath)) => {
         new Module(CanonicalPath(modulePath), preludeModule).load() match {
@@ -43,11 +59,6 @@ class MorganeyRepl(preludeModule: Option[Module]) {
 
       case MorganeyLoading(None) =>
         Computation.failed(new IllegalArgumentException("Module path was not specified!"))
-
-      // TODO(#197): separate bindings evaluation from MorganeyRepl.evalNode
-      case binding: MorganeyBinding => {
-        Computation(ReplResult(context.addBinding(binding), None))
-      }
 
       case term: LambdaTerm =>
         term.addBindings(context.bindings).right.map { t =>

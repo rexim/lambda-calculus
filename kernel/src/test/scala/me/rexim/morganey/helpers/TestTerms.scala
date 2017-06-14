@@ -1,6 +1,6 @@
 package me.rexim.morganey.helpers
 
-import me.rexim.morganey.ast.{LambdaFunc, LambdaVar, LambdaTerm}
+import me.rexim.morganey.ast._
 import me.rexim.morganey.ast.LambdaTermHelpers._
 
 trait TestTerms {
@@ -23,6 +23,9 @@ trait TestTerms {
       lapp(
         lapp(lvar(consName), first),
         second))
+
+  def binding(v1: LambdaVar, v2: LambdaVar): MorganeyBinding =
+    MorganeyBinding(v1, I(v2))
 
   val random = scala.util.Random
 
